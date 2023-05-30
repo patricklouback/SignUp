@@ -1,39 +1,65 @@
 import { useNavigation } from "expo-router";
-import { StyleSheet, View, Image, Text } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
+import { useState } from "react";
 
 export default function Login() {
   const navigation = useNavigation();
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   function goToScreen(name, data = []) {
     data ? navigation.navigate(name, data) : navigation.navigate(name)
   }
 
+  function Login() {
+    if (email === "patrickmlouback@gmail.com" && password === "1234567890") {
+      setEmail("")
+      setPassword("")
+      console.log("Usuário Logado!")
+    } else {
+      console.log("Insira o usuário e Senha Corretos!")
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Image
-      style={styles.image}
-      source={require("../../assets/images/guitar-pick.png")}
+        style={styles.image}
+        source={require("../../assets/images/guitar-pick.png")}
       />
 
       <View style={styles.direction}>
-        <Text style={styles.title1}>Freela</Text>
-        <Text style={styles.title2}>Music</Text>
+        <Text style={styles.title1}>Artista</Text>
+        <Text style={styles.title2}>Pro</Text>
       </View>
-
-      <Input placeholder={"email"}/>
-      <Input placeholder={"password"} type="password"/>
-      <Button 
-      text={"Login"}
-      stylesProps={{marginTop: 30}}
+      {/* { console.log(password)} */}
+      <Input
+        placeholder={"email"}
+        value={email}
+        onChangeText={(text) => { setEmail(text) }}
+      />
+      <Input
+        placeholder={"password"}
+        type="password"
+        value={password}
+        onChangeText={(text) => { setPassword(text) }}
       />
 
-      <View style={styles.line}/>
+      <Button
+        text={"Login"}
+        stylesProps={{ marginTop: 30 }}
+        onPress={Login}
+      />
+
+      <View style={styles.line} />
 
       <View style={styles.direction}>
         <Text style={styles.text}>Ainda não tem conta? </Text>
-        <Text style={styles.textSignIn}>Cadastre-se</Text>
+        <TouchableOpacity onPress={() => { goToScreen("SignIn") }}>
+          <Text style={styles.textSignIn}>Cadastre-se</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -55,30 +81,30 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   direction: {
-    flexDirection: "row"
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: "20%",
   },
   title1: {
-    fontSize: 32,
+    fontSize: 40,
     color: "#FF641A",
-    fontFamily: "inter_semiBold"
   },
   title2: {
-    fontSize: 32,
+    fontSize: 56,
     fontWeight: "800",
     color: "#DD3400",
-    marginBottom: "30%",
-    fontFamily: "inter_semiBold"
   },
   line: {
     width: 300,
     height: 0.4,
     backgroundColor: "#32393F",
-    marginTop: 30
+    marginTop: 35,
+    marginBottom: 20
   },
   text: {
-    fontFamily: "inter_exLight"
+    fontWeight: "200"
   },
   textSignIn: {
-    fontFamily: "inter_medium"
+    fontWeight: "700"
   }
 });
