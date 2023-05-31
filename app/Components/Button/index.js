@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
         shadowRadius: 3, // Raio da sombra
     },
     text:{
-      fontFamily: "inter_medium",
       fontSize: 16,
       color: "#FFF"
     }

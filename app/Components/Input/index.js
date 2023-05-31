@@ -21,7 +21,7 @@ export default function Input({ type, ...props }) {
 
   return (
     <>
-      <View style={{position: "relative", width: "100%", justifyContent: "center"}}>
+      <View style={{ position: "relative", width: "100%", justifyContent: "center" }}>
         <TextInput
           {...props}
           style={inputStyles}
@@ -31,10 +31,14 @@ export default function Input({ type, ...props }) {
           onBlur={handleBlur}
           autoCapitalize="none"
         />
-        {type === 'password' &&
-          <TouchableOpacity style={styles.icon} onPress={()=>{setEye(state => !state)}}>
-            <Feather name={eye ? "eye" : "eye-off"} size={24} color="#9b9fa3" />
-          </TouchableOpacity>
+        {type === 'password' ?
+          <>
+            <Feather style={styles.iconType} name={"lock"} size={24} color={isFocused ? "#FF641A" : "#9b9fa3"} />
+            <TouchableOpacity style={styles.icon} onPress={() => { setEye(state => !state) }}>
+              <Feather name={eye ? "eye" : "eye-off"} size={24} color={isFocused ? "#FF641A" : "#9b9fa3"} />
+            </TouchableOpacity>
+          </> :
+          <Feather style={styles.iconType} name={"mail"} size={24} color={isFocused ? "#FF641A" : "#9b9fa3"} />
         }
       </View>
     </>
@@ -46,7 +50,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 50,
     borderRadius: 10,
-    paddingHorizontal: 20,
+    paddingLeft: 48,
     backgroundColor: '#FFF',
     borderWidth: 1,
     borderColor: '#CCC',
@@ -58,11 +62,14 @@ const styles = StyleSheet.create({
     shadowRadius: 2, // Raio da sombra
   },
   inputFocused: {
-    borderColor: '#32393F',
-    // borderColor: '#DD3400',
+    borderColor: '#FF641A',
   },
   icon: {
     position: "absolute",
     right: 20,
+  },
+  iconType: {
+    position: "absolute",
+    left: 16,
   }
 });

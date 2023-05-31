@@ -1,12 +1,18 @@
 import { useEffect, useState } from 'react';
+import { SafeAreaView } from "react-native";
 import * as Font from 'expo-font';
-import { SafeAreaView, StatusBar } from "react-native";
-// import { StatusBar } from 'expo-status-bar';
+import { Provider } from 'react-redux';
+import store from './redux/store';
+
+
 import Navigation from "./routes/Navigation";
+import Splash from './Screens/Splash';
 
 export default function Page() {
 
   const [fontLoaded, setFontLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const timing = 3000;
 
   useEffect(() => {
     async function loadFonts() {
@@ -16,34 +22,24 @@ export default function Page() {
       setFontLoaded(true);
     }
     loadFonts();
+
+    setTimeout(() => {
+      setIsLoading(false)
+    }, timing + 200);
+
   }, []);
 
   if (!fontLoaded) {
     return null;
   }
 
-
-  // useEffect(() => {
-  //   const loadFonts = async () => {
-  //     await Font.loadAsync({
-  //       'inter_semiBold': require('./assets/fonts/Inter-SemiBold.ttf'),
-  //       'inter_black': require('./assets/fonts/Inter-Black.ttf'),
-  //       'inter_bold': require('./assets/fonts/Inter-Bold.ttf'),
-  //       'inter_exBold': require('./assets/fonts/Inter-ExtraBold.ttf'),
-  //       'inter_exLight': require('./assets/fonts/Inter-ExtraLight.ttf'),
-  //       'inter_light': require('./assets/fonts/Inter-Light.ttf'),
-  //       'inter_medium': require('./assets/fonts/Inter-Medium.ttf'),
-  //       'inter_regular': require('./assets/fonts/Inter-Regular.ttf'),
-  //       'inter_thin': require('./assets/fonts/Inter-Thin.ttf'),
-  //     });
-  //   };
-  
-  //   loadFonts();
-  // }, []);
-
   return (
-  <SafeAreaView style={{flex: 1}}>
-    <Navigation/>
-  </SafeAreaView>
+    <Provider store={store}>
+      {isLoading ? <Splash timing={timing}/> :
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#F6F6F6" }}>
+          <Navigation />
+        </SafeAreaView>
+      }
+    </Provider>
   );
 }

@@ -1,11 +1,21 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useDispatch } from 'react-redux';
+import { logout } from '../../redux/store';
 
 export default function Home() {
+  const dispatch = useDispatch();
+
+  function Logout() {
+      dispatch(logout());
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.main}>
         <Text style={styles.title}>Home</Text>
+        <TouchableOpacity onPress={Logout}>
+          <Text>Logout</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
