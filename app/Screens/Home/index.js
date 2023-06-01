@@ -1,6 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/store';
+import Header from "../../Components/Header";
+import ActivityBody from "../../Components/ActivityBody";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -11,12 +13,8 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.main}>
-        <Text style={styles.title}>Home</Text>
-        <TouchableOpacity onPress={Logout}>
-          <Text>Logout</Text>
-        </TouchableOpacity>
-      </View>
+      <Header/>
+      <ActivityBody/>
     </View>
   );
 }
@@ -25,20 +23,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    padding: 24,
-  },
-  main: {
-    flex: 1,
-    justifyContent: "center",
-    maxWidth: 960,
-    marginHorizontal: "auto",
-  },
-  title: {
-    fontSize: 64,
-    fontWeight: "bold",
-  },
-  subtitle: {
-    fontSize: 36,
-    color: "#38434D",
-  },
+    justifyContent: "flex-start",
+    backgroundColor: "#F6F6F6",
+    paddingTop: "10%"
+  }
 });
