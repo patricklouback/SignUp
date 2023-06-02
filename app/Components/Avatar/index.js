@@ -1,8 +1,11 @@
 import React from 'react';
 import { View, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
+import { showModal } from '../../redux/store';
 
-export default function Avatar({ avaliacaoUsuario = 3, style = {} }) {
+export default function Avatar({ avaliacaoUsuario = 3}) {
+    const dispatch = useDispatch();
     const urlAvatar = "https://images.pexels.com/photos/2269872/pexels-photo-2269872.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
 
     function renderStars() {
@@ -23,8 +26,12 @@ export default function Avatar({ avaliacaoUsuario = 3, style = {} }) {
         return stars;
     }
 
+    function SetModalVisible(){
+        dispatch(showModal());
+    }
+
     return (
-        <TouchableOpacity style={[styles.container, style]}>
+        <TouchableOpacity style={styles.container}onPress={SetModalVisible}>
             <Image source={{ uri: urlAvatar }} style={styles.avatar} />
             <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
                 {renderStars()}
@@ -36,7 +43,8 @@ export default function Avatar({ avaliacaoUsuario = 3, style = {} }) {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        gap: 5
+        gap: 5,
+        padding: 10,
     },
     avatar: {
         width: 50,

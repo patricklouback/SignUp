@@ -2,29 +2,30 @@ import React from 'react';
 import Animated, { SlideInRight, SlideInLeft } from 'react-native-reanimated';
 import { View, FlatList, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
-import dataEvent from '../../utils/dataEvents';
 
-export default function ActivityBody() {
+export default function ActivityBody({data, orientation = "left", backgroundStyle = 'black'}) {
 
   return (
-    <Animated.View style={styles.container} entering={SlideInLeft.duration(1000)}>
+    <Animated.View 
+    style={styles.container} 
+    entering={orientation == "left" ? SlideInLeft.duration(1000) : SlideInRight.duration(1000)}>
 
       <FlatList
-        data={dataEvent}
+        data={data}
         horizontal
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.item}>
+          <TouchableOpacity style={[styles.item, backgroundStyle == "black" ?{ backgroundColor: '#000'}: {backgroundColor: '#FF641A'},]}>
 
             <View style={styles.status}>
               <Entypo name="controller-record" size={12} color={item.status ? "#00ff1d" : "#ff8300"} />
               <Text style={styles.itemStatus}>{item.status ? "OK" : "Pendente"}</Text>
             </View>
-            <Text style={styles.itemTitle}>{item.title}</Text>
-            <Text style={styles.itemDate}>{item.date}</Text>
+            <Text style={[styles.itemTitle, backgroundStyle == "black"? {color: "#F6F6F6"} : {color: "#32393F"}]}>{item.title}</Text>
+            <Text style={[styles.itemDate, backgroundStyle == "black"? {color: "#FF641A"} : {color: "#32393F"}]}>{item.date}</Text>
             <Image
-              style={styles.image}
+              style={[styles.image, backgroundStyle == "black" ? {}: {borderColor: "#32393F", borderWidth: 0.1}]}
               source={{ uri: item.imageUrl }}
             />
 
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10
   },
   item: {
-    backgroundColor: '#000',
+    
     width: 175,
     height: 230,
     borderRadius: 10,
@@ -79,13 +80,11 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: 15,
     fontWeight: "700",
-    color: "#F6F6F6",
     marginTop: 16
   },
   itemDate: {
     fontSize: 28,
     fontWeight: "700",
-    color: "#FF641A",
   },
   itemStatus: {
     fontSize: 12,

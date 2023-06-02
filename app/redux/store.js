@@ -13,11 +13,27 @@ const authSlice = createSlice({
   },
 });
 
+const modalSlice = createSlice({
+  name: 'modal',
+  initialState: { visible: false },
+  reducers: {
+    showModal(state) {
+      state.visible = true;
+    },
+    hideModal(state) {
+      state.visible = false;
+    },
+  },
+});
+
+
 const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
+    modal: modalSlice.reducer,
   },
 });
 
 export const { login, logout } = authSlice.actions;
+export const { showModal, hideModal } = modalSlice.actions;
 export default store;

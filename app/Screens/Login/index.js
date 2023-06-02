@@ -20,7 +20,7 @@ export default function Login() {
   }
 
   function Login() {
-    if (email === "teste@gmail.com" && password === "1234567890") {
+    if (email === "fred@gmail.com" && password === "1234567890") {
       setEmail("")
       setPassword("")
       dispatch(login());

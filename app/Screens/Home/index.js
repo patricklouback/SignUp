@@ -1,26 +1,54 @@
+import { useRef, useState } from "react";
 import { StyleSheet, Text, ScrollView, View } from "react-native";
 import { useDispatch } from 'react-redux';
 import { logout } from '../../redux/store';
+
 import Header from "../../Components/Header";
 import ActivityBody from "../../Components/ActivityBody";
 
-export default function Home() {
-  const dispatch = useDispatch();
+import dataEvents from "../../utils/dataEvents"
+import dataEnsaios from "../../utils/dataEnsaios";
+import dataLessons from "../../utils/dataLessons";
+import LogoutModal from "../../Components/LogoutModal";
 
-  function Logout() {
-    dispatch(logout());
-  }
+export default function Home() {
+  const [positionScrow, setPositionScrow] = useState(0)
+  const [isScrolling, setIsScrolling] = useState(false);
+
+  const scrollViewRef = useRef(null);
+
+  const handleScrollBegin = () => {
+    setIsScrolling(true);
+  };
+  
+  const handleScrollEnd = () => {
+    setIsScrolling(false);
+  };
+
 
   return (
     <View style={styles.container}>
-      <Header />
-      <ScrollView>
+      <Header positionScrow = {positionScrow} isScrolling = {isScrolling}/>
+      <LogoutModal/>
+      <ScrollView
+        ref={scrollViewRef}
+        onScrollBeginDrag={handleScrollBegin}
+        onScrollEndDrag={handleScrollEnd}
+
+        onMomentumScrollBegin={handleScrollBegin}
+        onMomentumScrollEnd={handleScrollEnd}
+
+        onScroll={event => setPositionScrow(event.nativeEvent.contentOffset.y)}
+        showsVerticalScrollIndicator={false}
+      >
         <Text style={styles.Title}>Próximos eventos:</Text>
-        <ActivityBody />
-        <Text style={styles.Title}>Agenda de Aulas:</Text>
-        <ActivityBody />
+        <ActivityBody data={dataEvents}/>
+
         <Text style={styles.Title}>Ensaios:</Text>
-        <ActivityBody />
+        <ActivityBody data={dataEnsaios} orientation="right" backgroundStyle="outro"/>
+
+        <Text style={styles.Title}>Aulas Marcadas:</Text>
+        <ActivityBody data={dataLessons} />
       </ScrollView>
     </View>
   );

@@ -8,7 +8,7 @@ export default function Splash({timing}) {
     useEffect(()=>{
         setTimeout(() => {
             setLoading(true)
-          }, 1500);
+          }, 6000);
 
     },[])
     const enteringKeyframe = new Keyframe({

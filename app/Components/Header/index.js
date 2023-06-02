@@ -1,46 +1,58 @@
-import { useState } from "react";
-import { useDispatch } from 'react-redux';
-import { login } from '../../redux/store';
-import { useNavigation } from "expo-router";
-import Animated, { SlideInRight } from 'react-native-reanimated';
+import { useEffect, useState } from "react";
+import Animated, { SlideInRight, EasingNode, FadeOut, FadeIn } from 'react-native-reanimated';
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
-import Input from "../../Components/Input";
-import Button from "../../Components/Button";
-import { Entypo } from '@expo/vector-icons';
 import Avatar from "../Avatar";
 
-export default function Header() {
-  const dispatch = useDispatch();
+export default function Header({ positionScrow = 0, isScrolling, onPress }) {
+  const [isScroling, setIsScroling] = useState(true)
+  const [headerHeight, setHeaderHeight] = useState(new Animated.Value(210));
 
-  const navigation = useNavigation();
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  useEffect(() => {
+    if (positionScrow > 0 && !isScrolling) {
+      setIsScroling(false);
 
-  function goToScreen(name, data = []) {
-    data ? navigation.navigate(name, data) : navigation.navigate(name)
-  }
+      Animated.timing(
+        headerHeight, {
+        toValue: 120,
+        duration: 250,
+        easing: EasingNode.inOut(EasingNode.ease),
+      }).start()
 
-  function Login() {
-    if (email === "teste@gmail.com" && password === "1234567890") {
-      setEmail("")
-      setPassword("")
-      dispatch(login());
-    } else {
-      alert("Insira o usuário e Senha Corretos!")
+    } else if (positionScrow == 0 && !isScrolling) {
+      setIsScroling(true);
+
+      Animated.timing(headerHeight, {
+        toValue: 210,
+        duration: 250,
+        easing: EasingNode.inOut(EasingNode.ease),
+      }).start()
+
+
     }
-  }
+  }, [positionScrow, isScrolling]);
 
   return (
-    <Animated.View style={styles.container} entering={SlideInRight.duration(1000)}>
-      <View style={{ flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
+    <Animated.View
+      style={[styles.container, { height: headerHeight }]}
+      entering={SlideInRight.duration(1000)}
+    >
+      <View style={styles.logoPerfil}>
         <Image
           style={styles.image}
           source={require("../../assets/images/guitar-pick.png")}
         />
-        <Avatar style={styles.icon} />
+          <Avatar />
       </View>
 
-      <Text style={styles.title}>Bem vindo Fred</Text>
+      {isScroling &&
+        <Animated.View
+          style={{ width: "100%" }}
+          entering={FadeIn.duration(300).delay(200)}
+          exiting={FadeOut.duration(100)}
+        >
+          <Text style={[styles.title]}>Bem vindo Fred</Text>
+        </Animated.View>
+      }
 
     </Animated.View>
   );
@@ -50,13 +62,12 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     height: 210,
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#000",
-    paddingLeft: 45,
-    paddingRight: 18,
     borderBottomLeftRadius: 80,
     borderTopLeftRadius: 80,
+    paddingHorizontal: 50,
     marginLeft: 20,
     marginBottom: 20,
     elevation: 5,
@@ -74,7 +85,16 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: "400",
     color: "#FF641A",
+    alignSelf: "flex-start",
+    marginTop: 80
   },
-  icon: {
+  logoPerfil: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+
+    position: "absolute",
+    top: 25
   }
 });

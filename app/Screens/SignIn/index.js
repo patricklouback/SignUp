@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
   direction: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: "12%",
+    marginBottom: "20%",
   },
   title1: {
     fontSize: 28,
