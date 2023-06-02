@@ -1,27 +1,26 @@
 import React from 'react';
+import Animated, { SlideInRight, SlideInLeft } from 'react-native-reanimated';
 import { View, FlatList, StyleSheet, Text, Image, TouchableOpacity } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
+import dataEvent from '../../utils/dataEvents';
 
 export default function ActivityBody() {
-  const data = [
-    { id: '1', title: 'Show no Garage Rock!', date: "20/06/2023", status: true, imageUrl: "https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
-    { id: '2', title: 'Show no HardRock', date: "03/07/2023", status: false, imageUrl: "https://images.pexels.com/photos/167636/pexels-photo-167636.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
-    { id: '3', title: 'Aula pro Miguel', date: "15/07/2023", status: false, imageUrl: "https://images.pexels.com/photos/164835/pexels-photo-164835.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
-    { id: '4', title: 'Gravação do Single', date: "01/08/2023", status: true, imageUrl: "https://images.pexels.com/photos/1128440/pexels-photo-1128440.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
-    { id: '5', title: 'Férias !', date: "15/08/2023", status: true, imageUrl: "https://images.pexels.com/photos/89909/pexels-photo-89909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" },
-  ];
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.Title}>Atividades agendadas:</Text>
+    <Animated.View style={styles.container} entering={SlideInLeft.duration(1000)}>
+
       <FlatList
-        data={data}
+        data={dataEvent}
         horizontal
         showsHorizontalScrollIndicator={false}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.item}>
-            <Entypo style={styles.status} name="controller-record" size={12} color={item.status ? "#00ff1d" : "#ff8300"} />
+
+            <View style={styles.status}>
+              <Entypo name="controller-record" size={12} color={item.status ? "#00ff1d" : "#ff8300"} />
+              <Text style={styles.itemStatus}>{item.status ? "OK" : "Pendente"}</Text>
+            </View>
             <Text style={styles.itemTitle}>{item.title}</Text>
             <Text style={styles.itemDate}>{item.date}</Text>
             <Image
@@ -32,7 +31,7 @@ export default function ActivityBody() {
           </TouchableOpacity>
         )}
       />
-    </View>
+    </Animated.View>
   );
 };
 
@@ -44,16 +43,9 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     marginHorizontal: 10
   },
-  Title:{
-    fontSize: 28,
-    fontWeight: "600",
-    marginVertical: 20,
-    marginHorizontal: 10,
-    color: "#32393F"
-  },
   item: {
     backgroundColor: '#000',
-    width: 170,
+    width: 175,
     height: 230,
     borderRadius: 10,
     marginHorizontal: 8,
@@ -70,10 +62,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  status:{
+  status: {
     position: "absolute",
     top: 5,
-    left: 5
+    left: 5,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 5
   },
   image: {
     width: "100%",
@@ -81,16 +77,20 @@ const styles = StyleSheet.create({
     borderRadius: 10
   },
   itemTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "700",
     color: "#F6F6F6",
-    // color: "#DD3400",
-    marginTop: 10
+    marginTop: 16
   },
   itemDate: {
     fontSize: 28,
     fontWeight: "700",
     color: "#FF641A",
+  },
+  itemStatus: {
+    fontSize: 12,
+    fontWeight: "100",
+    color: "#F6F6F6"
   }
 });
 

@@ -2,11 +2,12 @@ import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/store';
 import { useNavigation } from "expo-router";
-import Animated, { FadeIn } from 'react-native-reanimated';
+import Animated, { SlideInRight } from 'react-native-reanimated';
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import Input from "../../Components/Input";
 import Button from "../../Components/Button";
 import { Entypo } from '@expo/vector-icons';
+import Avatar from "../Avatar";
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -30,50 +31,50 @@ export default function Header() {
   }
 
   return (
-    <Animated.View style={styles.container} entering={FadeIn.duration(500)}>
-      <Image
-        style={styles.image}
-        source={require("../../assets/images/guitar-pick.png")}
-      />
-      <Text style={styles.title}>Bem vindo!</Text>
-      <TouchableOpacity style={styles.icon}>
-        <Entypo name="menu" size={26} color="#F6F6F6" />
-      </TouchableOpacity>
+    <Animated.View style={styles.container} entering={SlideInRight.duration(1000)}>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", width: "100%" }}>
+        <Image
+          style={styles.image}
+          source={require("../../assets/images/guitar-pick.png")}
+        />
+        <Avatar style={styles.icon} />
+      </View>
+
+      <Text style={styles.title}>Bem vindo Fred</Text>
+
     </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    position: "relative",
     width: "100%",
-    height: "24%",
-    flexDirection: "row",
-    alignItems: "flex-end",
-    justifyContent: "space-between",
+    height: 210,
+    alignItems: "flex-start",
+    justifyContent: "center",
     backgroundColor: "#000",
-    paddingHorizontal: 40,
-    paddingBottom: "10%",
+    paddingLeft: 45,
+    paddingRight: 18,
     borderBottomLeftRadius: 80,
     borderTopLeftRadius: 80,
-    marginLeft: 20
-    // backgroundColor: "#F6F6F6",
+    marginLeft: 20,
+    marginBottom: 20,
+    elevation: 5,
+    shadowColor: '#000', // Cor da sombra
+    shadowOffset: { width: -1, height: 2 }, // Deslocamento da sombra
+    shadowOpacity: 0.5, // Opacidade da sombra
+    shadowRadius: 2, // Raio da sombra,
+    gap: 10
   },
   image: {
     width: 50,
     height: 50,
-    position: "absolute",
-    top: "32%",
-    left: "20%"
   },
   title: {
-    fontSize: 48,
+    fontSize: 32,
     fontWeight: "400",
     color: "#FF641A",
   },
   icon: {
-    position: "absolute",
-    top: "18%",
-    right: "10%"
   }
 });

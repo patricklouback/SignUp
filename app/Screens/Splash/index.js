@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, StyleSheet, ActivityIndicator } from 'react-native';
 import Animated, { Keyframe, FadeOut,  } from 'react-native-reanimated';
 
 export default function Splash({timing}) {
+    const[loading, setLoading] = useState(false)
+
+    useEffect(()=>{
+        setTimeout(() => {
+            setLoading(true)
+          }, 1500);
+
+    },[])
     const enteringKeyframe = new Keyframe({
         0: {
             opacity: 0,
@@ -54,7 +62,7 @@ export default function Splash({timing}) {
                 <Text style={styles.title1}>Artista</Text>
                 <Text style={styles.title2}>Pro</Text>
             </Animated.View>
-            <ActivityIndicator style={styles.loading} size="large" color="#FF641A" />
+            {loading && <ActivityIndicator style={styles.loading} size="large" color="#FF641A" />}
         </Animated.View>
     );
 }
